@@ -24,7 +24,4 @@ RUN yarn install --frozen-lockfile
 
 COPY . .
 
-RUN chown -R node:node /usr/src/app
-USER node
-
 CMD ["node", "src/index.js"]
