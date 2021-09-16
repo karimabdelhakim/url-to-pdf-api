@@ -20,7 +20,7 @@ RUN apt-get update \
 COPY package.json .
 COPY yarn.lock .
 
-RUN yarn install
+RUN yarn install --frozen-lockfile
 
 COPY . .
 
