@@ -10,6 +10,7 @@ function getMimeType(opts) {
   switch (type) {
     case 'png': return 'image/png';
     case 'jpeg': return 'image/jpeg';
+    case 'zip': return 'application/zip';
     default: throw new Error(`Unknown screenshot type: ${type}`);
   }
 }
@@ -112,6 +113,7 @@ function getOptsFromQuery(query) {
         height: query['screenshot.clip.height'],
       },
       omitBackground: query['screenshot.omitBackground'],
+      dom_elem: query['screenshot.dom_elem']
     },
   };
   return opts;

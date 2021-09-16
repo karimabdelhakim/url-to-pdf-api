@@ -2,6 +2,7 @@ const puppeteer = require('puppeteer');
 const _ = require('lodash');
 const config = require('../config');
 const logger = require('../util/logger')(__filename);
+const AdmZip = require("adm-zip");
 
 async function render(_opts = {}) {
   const opts = _.merge({
@@ -144,8 +145,23 @@ async function render(_opts = {}) {
       if (clipContainsSomething) {
         screenshotOpts.clip = opts.screenshot.clip
       }
+      // take a screenshotfor each element matching screenshotOpts.dom_elem
+      // and then add it into a .zip file
+      if (screenshotOpts.dom_elem) {
+        const elements = await page.$$(screenshotOpts.dom_elem)
+        let zip = new AdmZip();
+        for (let i = 0; i < elements.length; i++) {
+          image_buffer = await elements[i].screenshot()
+          zip.addFile(`ticket${i + 1}.png`, image_buffer);
+        }
+        data = zip.toBuffer();
+      }
+      else {
+        data = await page.screenshot(screenshotOpts);
+      }
 
-      data = await page.screenshot(screenshotOpts);
+
+
     }
 
   } catch (err) {

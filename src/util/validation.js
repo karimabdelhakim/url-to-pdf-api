@@ -56,12 +56,13 @@ const sharedQuerySchema = Joi.object({
   'pdf.printBackground': Joi.boolean(),
   'screenshot.fullPage': Joi.boolean(),
   'screenshot.quality': Joi.number().integer().min(0).max(100),
-  'screenshot.type': Joi.string().valid(['png', 'jpeg']),
+  'screenshot.type': Joi.string().valid(['png', 'jpeg', 'zip']),
   'screenshot.clip.x': Joi.number(),
   'screenshot.clip.y': Joi.number(),
   'screenshot.clip.width': Joi.number(),
   'screenshot.clip.height': Joi.number(),
   'screenshot.omitBackground': Joi.boolean(),
+  'screenshot.dom_elem': Joi.string(),
 });
 
 const renderQuerySchema = Joi.object({
@@ -116,7 +117,7 @@ const renderBodyObject = Joi.object({
   screenshot: Joi.object({
     fullPage: Joi.boolean(),
     quality: Joi.number().integer().min(0).max(100),
-    type: Joi.string().valid(['png', 'jpeg']),
+    type: Joi.string().valid(['png', 'jpeg', 'zip']),
     clip: {
       x: Joi.number(),
       y: Joi.number(),
@@ -124,6 +125,7 @@ const renderBodyObject = Joi.object({
       height: Joi.number(),
     },
     omitBackground: Joi.boolean(),
+    dom_elem: Joi.string(),
   }),
   failEarly: Joi.string(),
 });
