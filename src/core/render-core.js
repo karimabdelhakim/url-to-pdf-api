@@ -148,7 +148,12 @@ async function render(_opts = {}) {
       // take a screenshotfor each element matching screenshotOpts.dom_elem
       // and then add it into a .zip file
       if (screenshotOpts.dom_elem) {
-        const elements = await page.$$(screenshotOpts.dom_elem)
+        const fullPage = await page.$('body');
+        const fullPageSize = await fullPage.boundingBox();
+        await page.setViewport(
+          Object.assign({}, opts.viewport, { height: parseInt(fullPageSize.height) })
+        );
+        const elements = await page.$$(screenshotOpts.dom_elem);
         let zip = new AdmZip();
         for (let i = 0; i < elements.length; i++) {
           image_buffer = await elements[i].screenshot()
